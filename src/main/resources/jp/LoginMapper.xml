@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.go.jst.portal.dao.LoginDao">
+    <resultMap id="LoginResult" type="jp.go.jst.portal.entity.Login">
+        <result column="LOGIN_ID" property="loginId" javaType="String" jdbcType="VARCHAR" />
+        <result column="FIRST_NAME" property="firstName" javaType="String" jdbcType="VARCHAR" />
+    </resultMap>
+    <select id="getLogin" resultMap="LoginResult" parameterType="String">
+        select LOGIN_ID, FIRST_NAME
+        from guest_user
+        where LOGIN_ID = #{loginId}
+    </select>
+</mapper>

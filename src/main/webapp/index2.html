@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      var ws = new WebSocket("ws://172.20.254.31:8080/webc/echo?b");
+
+      ws.onopen = function(){
+      };
+
+      ws.onclose = function(){
+      };
+
+      ws.onmessage = function(message){
+        $("#log").append(message.data).append("<br/>");
+        $("#message").val("")
+      };
+
+      ws.onerror = function(event){
+        alert("エラー");
+      };
+
+      $("#form").submit(function(){
+        ws.send($("#message").val());
+        return false;
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <div id="log"></div>
+  <form id="form" action="#">
+    <input type="text" id="message" /> <input type="submit" id="send" value="送信" />
+  </form>
+</body>
+
+</html>

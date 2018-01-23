@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      var ws = new WebSocket("ws://172.20.254.31:8080/webc/echo?a");
+
+      ws.onopen = function(){
+      };
+
+      ws.onclose = function(){
+      };
+
+      ws.onmessage = function(message){
+    	  var messageData = message.data.trim();
+    	  if (messageData != null && (messageData.toLowerCase().indexOf("http://") == 0 || messageData.toLowerCase().indexOf("https://") == 0)) {
+    		  messageData = "<a href='"+messageData+"' target='_blank'>"+messageData+"</a>";
+    	  }
+        $("#log").append(messageData).append("<br/>");
+        $("#message").val("")
+        var log = $("#log")[0];
+        log.scrollTop = log.scrollHeight;
+      };
+
+      ws.onerror = function(event){
+        alert("エラー");
+      };
+
+      $("#form").submit(function(){
+        ws.send($("#message").val());
+        return false;
+      });
+    });
+    function upload() {
+    	window.open("http://localhost:8080/fmdbSpring/upload?status=00","upload",);
+    }
+  </script>
+</head>
+
+<body>
+  <div id="log" style="height: 300px;width: 900px;overflow-y: scroll;"></div>
+  <form id="form" action="#">
+    <input type="button" id="send" onclick="upload()" value="＋" /><input type="text" id="message" /> <input type="submit" id="send" value="送信" />
+  </form>
+</body>
+
+</html>

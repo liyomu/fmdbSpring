@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Welcome</title>
+</head>
+<body>
+	<h2>$message</h2>
+  <form action="showMessage" name="loginForm" id="loginForm" method="post">
+    #springBind("loginForm")
+    #if($status.errors.hasErrors())
+      #set($field = "")
+      #foreach($f in $status.errors.fieldErrors)
+        #if(${f.field} != $field)
+          #set($field = ${f.field})
+          #springBind("loginForm.${f.field}")
+          #foreach($e in $status.errorMessages)
+            <p>${e}</p>
+          #end
+        #end
+      #end
+    #end
+    <input type="text" id="id" name="id" value="$loginForm.id"/>
+    <input type="text" id="password" name="password" value="$loginForm.password"/>
+    <input type="submit" />
+  </form>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<title>Welcome</title>
+</head>
+<body>
+  <h2>$message</h2>
+  <form action="uploadFile" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="status" value="${status}"/>
+    <input type="file" name="file" id="loadFile"/>
+    <input type="submit" value="upload"/><br>
+    <div id="info"></div>
+  </form>
+</body>
+<script type="text/javascript">
+
+//onchangeイベントを登録
+window.onload = function(){
+  var status = ${status};
+  if ('01' == status) {
+    window.close();
+  }
+  
+  $("#loadFile").addEventListener(
+  'change', afile_changeHandler);
+}
+
+function afile_changeHandler(evt){
+  var files = evt.target.files;
+  var s = "";
+  var f = files[0];
+  s = f.size;
+  if (s>209715200){
+    alert("ファイルサイズが200Mより大きいため、登録を見直しにしてください。");
+  }
+  
+    s += 
+      'name;' + escape(f.name) + '<br>' +
+      'size;' + f.size + ' Bytes<br>' +
+      'type;' + f.type + '<br>' +
+      'date;' + f.lastModifiedDate + '<hr>';
+  $('#info').innerHTML = s;
+}
+
+function $(id) {
+  return document.querySelector(id);
+}
+</script>
+</html>
